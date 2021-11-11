@@ -5,6 +5,6 @@ with
       , name
       , modifieddate
       , rowguid
-      from {{ source('adventureworks_etl', 'productcategory')  }}
+      from {{ source('adventureworks_etl','productcategory')  }}
   )
 select * from source_data
