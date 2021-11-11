@@ -1,123 +1,16 @@
-version: 2
+version: 2
+
 sources:
-    - name: adventureworks_etl
-      tables: 
-        - name: orders
-
-        - name: customers
-          description: Essa é a tabela de clientes
-          columns:
-            - name: customer_id
-              description: id do cliente
-              tests:
-                - unique
-                - not_null
-
-        - name: product
-          description: Essa é a tabela de produtos
-          columns:
-            - name: product_id
-              description: id do produto
-              tests:
-                - unique
-                - not_null
-
-        - name:productcategory
-          description: Essa é a tabela de categoria de produtos
-          columns:
-            - name: productcategoryid
-              description: id da categoria produto
-              tests:
-                - unique
-                - not_null
-
-        - name:productsubcategory
-          description: Essa é a tabela de subcategorias produtos
-          columns:
-            - name: productsubcategoryid
-              description: id de subcategorias do produto
-              tests:
-                - unique
-                - not_null
-
-        - name: stateprovince
-          description: Essa é a tabela de estados
-          columns:
-            - name: stateprovinceid
-              description: id da provncia estatual
-              tests:
-                - unique
-                - not_null
-
-        - name: salesreason
-          description: Essa é a tabela de motivo da venda
-          columns:
-            - name: salesreasonid
-              description: id do motivo da venda
-              tests:
-                - unique
-                - not_null
-
-        - name: salesorderheadersalesreason
-          description: Essa é a tabela de pedidos por motivo de venda 
-          columns:
-            - name: salesorderid
-              description: id da tabela
-              tests:
-                - unique
-                - not_null
-
-        - name: salesorderheader
-          description: Essa é a tabela de pedidos de vendas
-          columns:
-            - name: salesorderid
-              description: id da tabela
-              tests:
-                - unique
-                - not_null
-
-        - name: salesorderdetail
-          description: Essa é a tabela de detalhes pedidos de vendas
-          columns:
-            - name: salesorderdetailid
-              description: id da tabela
-              tests:
-                - unique
-                - not_null
-
-        - name: person
-          description: Essa é a tabela de pessoa
-          columns:
-            - name: businessentityid
-              description: id da tabela
-              tests:
-                - unique
-                - not_null
-
-
-        - name: creditcard
-          description: Essa é a tabela de cartao
-          columns:
-            - name: creditcardid
-              description: id da tabela
-              tests:
-                - unique
-                - not_null
-
-        - name: countryregion
-          description: Essa é a tabela de regiao
-          columns:
-            - name: countryregioncode
-              description: id da tabela
-              tests:
-                - unique
-                - not_null
-
-        - name: address
-          description: Essa é a tabela de endereço
-          columns:
-            - name: addressid
-              description: id da tabela
-              tests:
-                - unique
-                - not_null
+  - name:  adventureworks_etl
+    tables:
+      - name: address
+      - name: countryregion
+      - name: creditcard
+      - name: customer
+      - name: person
+      - name: product
+      - name: salesorderdetail
+      - name: salesorderheader
+      - name: salesorderheadersalesreason
+      - name: salesreason
+      - name: stateprovince
