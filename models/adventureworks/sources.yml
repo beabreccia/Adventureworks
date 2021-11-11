@@ -1,14 +1,7 @@
 version: 2
 
-my-profile:
-  outputs:
-    dev:
-      type: bigquery
-      project: projeto-final-331612
-      dataset:  adventureworks_etl
-      location: US
 sources:
-  - name:  adventureworks_etl
+  - name: adventureworks_etl
     tables:
       - name: address
       - name: countryregion
@@ -16,7 +9,7 @@ sources:
       - name: customer
       - name: person
       - name: product
-      - name: productcategory
+      - name: productcategory      
       - name: productsubcategory
       - name: salesorderdetail
       - name: salesorderheader
