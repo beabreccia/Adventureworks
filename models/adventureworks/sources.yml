@@ -4,7 +4,6 @@ my-profile:
   outputs:
     dev:
       type: bigquery
-      method: oauth
       project: projeto-final-331612
       dataset:  adventureworks_etl
       location: US
