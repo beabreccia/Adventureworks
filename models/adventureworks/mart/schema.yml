@@ -1,58 +1,33 @@
-version: 2
+
+version: 2
+
 models:
-    - name: fact_orders
-      description: "Nossa tabela de fatos"
-      columns:
-          - name: order_id
-            description: "Chave primaria original da tabela"
-            tests:
-                - unique
-                - not_null
-    - name: dim_customers
-      description: "Dimensao Customers"
-      columns:
-          - name: customer_id
-            description: "Chave primaria original da tabela"
-            tests:
-                - unique
-                - not_null
-    - name: dim_products
-      description: "Dimensao Products"
-      columns:
-          - name: product_id
-            description: "Chave primaria original da tabela"
-            tests:
-                - unique
-                - not_null
-    - name: dim_shippers
-      description: "Dimensao Shippers"
-      columns:
-          - name: shipper_id
-            description: "Chave primaria original da tabela"
-            tests:
-                - unique
-                - not_null
-    - name: dim_suppliers
-      description: "Dimensao Suppliers"
-      columns:
-          - name: supplier_id
-            description: "Chave primaria original da tabela"
-            tests:
-                - unique
-                - not_null
-    - name: dim_employees
-      description: "Dimensao Employees"
-      columns:
-          - name: employee_id
-            description: "Chave primaria original da tabela"
-            tests:
-                - unique
-                - not_null
-    - name: fact_orders_details
-      description: "Nossa tabela de fatos detalhada"
-      columns:
-          - name: order_id
-            description: "Chave primaria original da tabela"
-            tests:
-                - unique
-                - not_null
+    - name: fact_ordersproducts
+      description: "A starter dbt model"
+      columns:
+          - name: salesorderheaderSK
+
+    - name: fact_ordersreason
+      description: "A starter dbt model"
+      columns:
+          - name: salesorderheaderSK
+
+    - name: dim_products
+      description: "A starter dbt model"
+      columns:
+          - name: produtoid
+
+    - name: dim_salesorderheader
+      description: "A starter dbt model"
+      columns:
+          - name: salesorderid
+
+    - name: dim_address
+      description: "A starter dbt model"
+      columns:
+          - name: addressid
+
+    - name: dim_salesreason
+      description: "A starter dbt model"
+      columns:
+          - name: salesreasonid
