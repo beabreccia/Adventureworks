@@ -7,7 +7,7 @@ my-profile:
       method: oauth
       project: projeto-final-331612
       dataset:  adventureworks_etl
-
+      location: US
 sources:
   - name:  adventureworks_etl
     tables:
