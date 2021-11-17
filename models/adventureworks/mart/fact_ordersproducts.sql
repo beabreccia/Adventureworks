@@ -54,7 +54,7 @@ with
         , orderdetail.orderqty			
         , orderdetail.unitprice	
         , orderdetail.unitpricediscount
-        from {{ ref('stg_salesorderdetail') }} as orderdetail
+        from {{ ref('stg_salesordersdetail') }} as orderdetail
         left join dim_products product on orderdetail.productid = product.product_pk
     )
 , final as (
