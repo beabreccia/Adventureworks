@@ -17,14 +17,8 @@ with
     , customerfinal as (
         select row_number() over (order by customerinfo.customerid) as customerSK
         , personinfo.businessentityid
-        , case
-        when personinfo.PersonName is not null
-        then personinfo.PersonName
-        else storeinfo.storename
-        end as CustomerName
+        , personinfo.PersonName
         from customerinfo
         left join personinfo on customerinfo.personid = personinfo.businessentityid
-        left join storeinfo on customerinfo.storeid = storeinfo.storeid
     )
-
-select customer_pk, storeid, CustomerName from customerfinal
+select * from customerfinal
