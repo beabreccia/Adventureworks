@@ -43,7 +43,7 @@ with
         when orderheader.status = 6 then 'Cancelled'
         end as Status
         from {{ ref('stg_salesorderheader') }} as orderheader
-        left join dim_salesreason salesreason on orderheader.salesorderid = salesreason.salesreasonSK
+        left join dim_salesreason salesreason on orderheader.salesorderid = salesreason.salesorderid
         left join dim_customer customer on orderheader.customerid = customer.customerSK
     )
     , salesorderdetail_sk as (
@@ -57,7 +57,7 @@ with
         , orderdetail.unitpricediscount
         from {{ ref('stg_salesordersdetail') }} as orderdetail
         left join dim_products product on orderdetail.productid = product.produtoSK
-    )
+    )/*
 , final as (
     select salesorder_sk.customer_fk
         , salesorder_sk.address_fk
@@ -89,4 +89,6 @@ with
     from final
 )
 
-select * from final2
+select * from final2*/
+
+SELECT * FROM salesorderdetail_sk
