@@ -3,7 +3,7 @@
 with
     personinfo as (
         select businessentityid
-        , concat(if(title is null, ' ', person.title), ' ', person.firstname, ' ', person.lastname) as PersonName
+        , concat(person.firstname, ' ', person.lastname) as PersonName
         from {{ ref('stg_person') }} person
     )
     , customerinfo as (
@@ -14,7 +14,7 @@ with
           , territoryid
           , PersonName
         from {{ ref('stg_customer') }} customer
-        left join personinfo on customer.customerid = personinfo.businessentityid
+        left join personinfo on customer.personid = personinfo.businessentityid
     )
 
     , customerfinal as (
