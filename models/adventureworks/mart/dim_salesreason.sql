@@ -1,30 +1,31 @@
-{{  config(materialized='table')  }}
+{{  config(materialized='table')  }}
+
 with
-    salesreason as (
-        select *
-        from {{  ref('stg_salesreason')  }}
-    )
-    , salesorderheadersalesreason as (
+    reason as (
+        select reasontype
+            , salesreasonid
+	        , name
+        from {{ ref('stg_salesreason') }}
+    )
+    , reasoninfo as (
         select salesorderid
             , salesreasonid
 	    from {{ ref('stg_salesordesrheadersalesreason') }}
     )
-    , reasonalfinal as (
-        select salesorderreason.salesorderid
-        , salesorderreason.salesreasonid
-        , salesreason.reasontype
-        , salesreason.name 
-        from salesorderheadersalesreason salesorderreason
-        left join salesreason on salesreason.salesreasonid = salesorderreason.salesreasonid
-        where salesorderreason.salesorderid is not null
+    , reasonalmostfinal as (
+        select reasoninfo.salesorderid
+        , reasoninfo.salesreasonid
+        , reason.reasontype
+        , reason.name as name_motivo
+        from reasoninfo
+        left join reason on reason.salesreasonid = reasoninfo.salesreasonid
+        where reasoninfo.salesorderid is not null
     )
-    , final as (
-        select
-            row_number() over (order by salesreasonid)  as salesreasonSK
-            , salesorderid as salesorderid
-            , salesreasonid as salesreasonid
-            , name as name_motivo
-            , reasontype as reasontype
-        from reasonalfinal
-    )
-select * from final
+    , reasonfinal as (
+        select salesorderid
+        , string_agg(name_motivo, ', ') as name_motivo
+        from reasonalmostfinal
+        group by salesorderid
+    )
+
+select * from reasonfinal

@@ -28,23 +28,24 @@ with
     select 
         customer.customerSK as customer_fk
         , customer.PersonName
+        , customer.customerid
         , orderheader.salesorderid
         , orderheader.billtoaddressid as address_fk
         , orderheader.creditcardid as creditcard_fk
         , orderheader.orderdate
         , salesreason.name_motivo
-        , salesreason.salesreasonSK
-        , case
-        when orderheader.status = 1 then 'In Process'
-        when orderheader.status = 2 then 'Approved'
-        when orderheader.status = 3 then 'Waiting'
-        when orderheader.status = 4 then 'Rejected'
-        when orderheader.status = 5 then 'Shipped'
-        when orderheader.status = 6 then 'Cancelled'
+        --, salesreason.reasontype
+        --, salesreason.salesreasonSK
+        , case when orderheader.status = 1 then 'In Process'
+                when orderheader.status = 2 then 'Approved'
+                when orderheader.status = 3 then 'Waiting'
+                when orderheader.status = 4 then 'Rejected'
+                when orderheader.status = 5 then 'Shipped'
+                when orderheader.status = 6 then 'Cancelled'
         end as Status
         from {{ ref('stg_salesorderheader') }} as orderheader
         left join dim_salesreason salesreason on orderheader.salesorderid = salesreason.salesorderid
-        left join dim_customer customer on orderheader.customerid = customer.customerSK
+        left join dim_customer customer on orderheader.customerid = customer.customerid
     )
     , salesorderdetail_sk as (
         select
@@ -56,14 +57,18 @@ with
         , orderdetail.unitprice	
         , orderdetail.unitpricediscount
         from {{ ref('stg_salesordersdetail') }} as orderdetail
-        left join dim_products product on orderdetail.productid = product.produtoSK
-    )/*
+        left join dim_products product on orderdetail.productid = product.produtoid
+    ) 
 , final as (
-    select salesorder_sk.customer_fk
+    select 
+    salesorder_sk.customer_fk
         , salesorder_sk.address_fk
         , salesorder_sk.PersonName
-        , salesorder_sk.salesreasonSK
+        , salesorder_sk.customerid
+        --, salesorder_sk.salesreasonSK
         , salesorder_sk.orderdate
+        , salesorder_sk.name_motivo
+        --, salesorder_sk.reasontype
         , extract(year from salesorder_sk.orderdate) as OrderYear
         , extract(month from salesorder_sk.orderdate) as OrderMonth
         , salesorder_sk.Status
@@ -78,17 +83,22 @@ with
         , dim_addres.country_region_name
         , dim_creditcard.creditcardSK
         , dim_creditcard.cardtype as CardType
+        , salesorder_sk.salesorderid
     from salesorder_sk
-    left join  salesorderdetail_sk salesorderdetail_sk  on salesorder_sk.salesreasonSK = salesorderdetail_sk.salesorderid
+    left join  salesorderdetail_sk on salesorder_sk.salesorderid = salesorderdetail_sk.salesorderid
     left join dim_addres on salesorder_sk.address_fk = dim_addres.addressSK
-    left join dim_creditcard on salesorder_sk.creditcard_fk = dim_creditcard.creditcardSK
+    left join dim_creditcard on salesorder_sk.creditcard_fk = dim_creditcard.creditcardid
 )
+
 , final2 as (
     select unitprice*orderqty as GrossIncome
     , *
     from final
 )
 
-select * from final2*/
-
-SELECT * FROM salesorderdetail_sk
+SELECT * FROM final2
+/*
+select customer_fk, salesorderid as reason_fk, salesorderdetailid, product_fk, address_fk, creditcardSK
+, orderdate, OrderYear, OrderMonth, Status, orderqty, unitprice, GrossIncome, unitpricediscount
+from final2
+order by salesorderdetailid*/
