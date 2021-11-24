@@ -34,6 +34,7 @@ with
         , orderheader.creditcardid as creditcard_fk
         , orderheader.orderdate
         , salesreason.name_motivo
+        
         --, salesreason.reasontype
         --, salesreason.salesreasonSK
         , case when orderheader.status = 1 then 'In Process'
